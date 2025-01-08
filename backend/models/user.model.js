@@ -30,9 +30,9 @@ import mongoose, {Schema} from "mongoose";
     },
     role:{
         type:String,
-        enum:['student','recruiter', 'user'],
+        enum:['student','recruiter'],
         required:true,
-        default:'user'
+        default:'student'
     },
     profile:{
         bio:{

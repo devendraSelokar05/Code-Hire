@@ -101,6 +101,7 @@ export const login = async(req, res)=>{
             userId: user._id
         }
         const token = await jwt.sign(tokenData, process.env.JWT_SECRET, {expiresIn:"1d"})
+        // console.log(token);
      
         
         const userResponse = {
@@ -131,74 +132,10 @@ export const login = async(req, res)=>{
     }
 }
 
-// export const googleLogin = async (req, res) => {
-//     try {
-//       const { token } = req.body; // Google JWT token
-//       if (!token) {
-//         return res.status(400).json({
-//           message: "Token is required",
-//           success: false,
-//         });
-//       }
-  
-//       // Create a new OAuth2Client with your Google client ID
-//       const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-  
-//       // Verify the token
-//       const ticket = await client.verifyIdToken({
-//         idToken: token,
-//         audience: process.env.GOOGLE_CLIENT_ID,
-//       });
-  
-//       const payload = ticket.getPayload();
-      
-//       const fullname = payload.name;
-//       const picture = payload.picture;
-//       const googleId = payload.sub;
-//       const email = payload.email;
-  
-//       // Check if the user already exists
-//       let user = await UserModel.findOne({ googleId });
-  
-//       if (!user) {
-//         // Create a new user
-//         user = await UserModel.create({
-//           fullname,
-//           email,
-//           googleId,
-//           profile: {
-//             profileImage: picture,
-//           },
-//         });
-//       }
-  
-//       // Create a token for session
-//       const tokenData = { userId: user._id };
-//       const jwtToken = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: "1d" });
-  
-//       res.status(200).cookie("token", jwtToken, {
-//         maxAge: 24 * 60 * 60 * 1000,
-//         httpOnly: true,
-//         secure: true,
-//       }).json({
-//         message: "Logged in successfully",
-//         success: true,
-//         user,
-//         token: jwtToken,
-//       });
-//     } catch (error) {
-//       console.error("Google Login Error:", error);
-//       res.status(500).json({
-//         message: "Authentication failed",
-//         success: false,
-//         error: error.message
-//       });
-//     }
-//   };
-
 export const googleLogin = async (req, res) => {
     try {
       const { token } = req.body; // Google JWT token
+    //   console.log(token);
       if (!token) {
         return res.status(400).json({
           message: "Token is required",
@@ -215,12 +152,14 @@ export const googleLogin = async (req, res) => {
         audience: process.env.GOOGLE_CLIENT_ID,
       });
   
+  
       const payload = ticket.getPayload();
       
       const fullname = payload.name;
       const picture = payload.picture;
       const googleId = payload.sub;
       const email = payload.email;
+      const role = "student";
   
       // Check if the user already exists
       let user = await UserModel.findOne({ googleId });
@@ -231,21 +170,18 @@ export const googleLogin = async (req, res) => {
           fullname,
           email,
           googleId,
+          role,
           profile: {
-            profileImage: picture, // Ensure this matches the Navbar's expectation
+            profileImage: picture,
           },
         });
-      } else {
-        // Update existing user's profile image if it's different
-        if (user.profile.profileImage !== picture) {
-          user.profile.profileImage = picture;
-          await user.save();
-        }
       }
   
       // Create a token for session
       const tokenData = { userId: user._id };
+    //   console.log(tokenData);
       const jwtToken = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: "1d" });
+    //   console.log(jwtToken);
   
       res.status(200).cookie("token", jwtToken, {
         maxAge: 24 * 60 * 60 * 1000,
@@ -267,6 +203,8 @@ export const googleLogin = async (req, res) => {
     }
   };
 
+
+
 export const updateProfile = async(req, res)=>{
     try {
         const{fullname, phoneNumber,bio, skills} = req.body
@@ -274,7 +212,9 @@ export const updateProfile = async(req, res)=>{
        
         const file = req.file
         const fileUri = getDataUri(file)
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content)
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+            resource_type: "auto"
+        })
       
         let skillsArray;
         if(skills){
@@ -290,7 +230,7 @@ export const updateProfile = async(req, res)=>{
         };
 
         if(fullname) user.fullname = fullname
-        if(phoneNumber) user.phoneNumber = phoneNumber
+        if(!user.googleId && phoneNumber) user.phoneNumber = phoneNumber
         if(bio) user.profile.bio = bio
         if(skills) user.profile.skills = skillsArray
 
@@ -334,6 +274,38 @@ export const logout = async(req, res)=>{
             message:"User logged out successfully",
             success:true
         })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message:error.message,
+            success:false
+        })
+    }
+}
+
+export const deleteResume = async(req, res) =>{
+    try {
+        const userId = req.id
+        const user = await UserModel.findById(userId)
+        if(!user){
+            return res.status(400).json({
+                message:"User does not exist",
+                success:false
+            })
+        }
+
+        const resumePublicId = user.profile.resume.split('/').pop().split('.')[0];
+        console.log(resumePublicId);
+        await cloudinary.uploader.destroy(resumePublicId)
+
+        user.profile.resume = ""
+        user.profile.resumeOriginalName = ""
+        await user.save()
+        res.status(200).json({
+            message:"Resume deleted successfully",
+            success:true
+        })
+        
     } catch (error) {
         console.log(error)
         res.status(500).json({
