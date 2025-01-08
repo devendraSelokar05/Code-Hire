@@ -59,7 +59,7 @@ const Login = () => {
   };
 
   const handleGoogleLogin = async (credentialResponse) => {
-    console.log(credentialResponse);
+    // console.log(credentialResponse);
     try {
       // Extract the token from the Google response
       const token = credentialResponse.credential;
@@ -85,7 +85,7 @@ const Login = () => {
         // Set user in the state and navigate
         dispatch(setUser(response.data.user));
         toast.success(response.data.message);
-        navigate("/admin");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

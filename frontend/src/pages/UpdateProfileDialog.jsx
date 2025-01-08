@@ -173,7 +173,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               type="file"
               onChange={fileHandle}
               accept="application/pdf"
-              className="sm:col-span-3 cursor-pointer"
+              className="sm:col-span-3 cursor-pointer text-black"
             />
           </div>
         </div>

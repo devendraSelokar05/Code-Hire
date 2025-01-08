@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Navbar from "@/components/shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Contact, Mail, Pen } from "lucide-react";
+import { Contact, Mail, Pen, Trash } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { useSelector } from "react-redux";
@@ -10,6 +10,8 @@ import AppliedJobTable from "@/cards/AppliedJobTable";
 import UpdateProfileDialog from "@/pages/UpdateProfileDialog";
 import useGetAllAppliedJobs from "@/hooks/useGetAllAppliedJobs";
 import { useDarkMode } from "@/components/context/DarkMode";
+import { toast } from "sonner";
+import axios from "axios";
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
@@ -21,8 +23,40 @@ const Profile = () => {
   // console.log(user.profile.resume)
   // console.log(user.fullname)
   const{isDarkMode} = useDarkMode()
+
+  // const handleDeleteResume = async () => {
+  //   try {
+  //     // Make sure public_id is available in the user profile
+  //     const publicId = user?.profile?.resumePublicId;  // Assuming you store public_id in the profile
+  //     // console.log(publicId);
+  //     if (!publicId) {
+  //       toast.error("No resume found to delete.");
+  //       return;
+  //     }
+  
+  //     const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/users/deleteResume`, {
+  //       withCredentials: true,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       data: JSON.stringify({
+  //         userId: user._id,
+  //         public_id: publicId,  // Send public_id to backend
+  //       })
+  //     });
+  
+  //     console.log(response);
+  //     if (response.data.success) {
+  //       toast.success(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error.response?.data?.message || 'Error occurred');
+  //   }
+  // }
+  
   return (
-    <div className={` ${isDarkMode ? 'text-white' : 'text-black'}min-h-screen`}>
+    <div className={` ${isDarkMode ? 'text-white' : 'text-black'} min-h-screen`}>
       <Navbar />
       <div className={`max-w-4xl mx-auto  border  rounded-2xl my-5 p-6 md:p-8 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}>
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -75,6 +109,7 @@ const Profile = () => {
         <div className="grid w-full gap-1.5">
           <Label className="text-md font-bold">Resume</Label>
           {isResume ? (
+            <div className="flex items-center justify-between">
             <a
               target="_blank"
               href={user?.profile?.resume}
@@ -82,6 +117,10 @@ const Profile = () => {
             >
               {user?.profile?.resumeOriginalName}
             </a>
+            <Button onClick={handleDeleteResume} className="mt-2" variant="destructive">
+            <Trash className="mr-2" /> Delete Resume
+          </Button>
+          </div>
           ) : (
             <span className="text-gray-600">NA</span>
           )}

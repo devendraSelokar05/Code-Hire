@@ -17,7 +17,7 @@ const Browse = () => {
     };
   }, []);
   return (
-    <div className="min-h-screen">
+    <div className=" min-h-screen">
       <div className="max-w-7xl  mx-auto px-4  sm:px-6 lg:px-8">
         <Navbar />
         <h1 className="text-2xl font-bold my-6  text-center sm:text-left">
@@ -30,7 +30,7 @@ const Browse = () => {
         </div>
     
       </div>
-      <Footer />
+      <Footer className="mt-auto" />
     </div>
   );
 };
