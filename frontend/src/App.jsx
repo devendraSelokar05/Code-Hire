@@ -13,7 +13,7 @@ import CompanyCreate from "./components/admin/CompanyCreate";
 import CompanySetup from "./components/admin/CompanySetup";
 import AdminJobs from "./components/admin/AdminJobs";
 import PostJob from "./components/admin/PostJob";
-import Applicant from "./components/admin/applicant";
+import Applicant from "./components/admin/Applicant";
 import ProtectedRoute from "./components/admin/ProtectedRoute";
 import RequireAuth from "./components/shared/RequireAuth";
 
