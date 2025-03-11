@@ -20,6 +20,12 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
+//default routes
+app.get("/", (req, res) => {
+    res.send("Welcome to the Code-Hire Backend API! 🚀");
+  });
+  
+
 app.use("/users", userRoutes)
 app.use("/companies", companyRoutes)
 app.use("/jobs", jobRoutes)

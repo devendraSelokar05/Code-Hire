@@ -211,10 +211,9 @@ export const updateProfile = async(req, res)=>{
         //validation
        
         const file = req.file
-        const fileUri = getDataUri(file)
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-            resource_type: "auto"
-        })
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
       
         let skillsArray;
         if(skills){
@@ -295,11 +294,14 @@ export const deleteResume = async(req, res) =>{
         }
 
         const resumePublicId = user.profile.resume.split('/').pop().split('.')[0];
-        console.log(resumePublicId);
+        console.log("Public Id:", resumePublicId);
         await cloudinary.uploader.destroy(resumePublicId)
 
-        user.profile.resume = ""
-        user.profile.resumeOriginalName = ""
+        await UserModel.updateOne(
+            { _id: userId },
+            { $unset: { "profile.resume": "", "profile.resumeOriginalName": "" } }
+        );
+
         await user.save()
         res.status(200).json({
             message:"Resume deleted successfully",
@@ -309,8 +311,10 @@ export const deleteResume = async(req, res) =>{
     } catch (error) {
         console.log(error)
         res.status(500).json({
+            
             message:error.message,
-            success:false
+            success:false,
         })
     }
 }
+

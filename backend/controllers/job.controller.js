@@ -46,7 +46,7 @@ export const getAllJobs = async(req,res)=>{
         }
         const jobs = await JobModel.find(query).populate({
             path:"company"
-        }).sort({createdAt:-1}) // populate is used to get the info about which comapny is posted the
+        }).sort({createdAt:-1}) // populate is used to get the info about which comapny is posted the job
         if(!jobs){
             return res.status(404).json({
                 message:"No jobs found",
@@ -118,4 +118,3 @@ export const getAdminJobs = async(req, res)=>{
         })
     }
 }
-   
