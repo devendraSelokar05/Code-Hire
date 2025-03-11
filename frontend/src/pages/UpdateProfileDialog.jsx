@@ -28,7 +28,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         phoneNumber: user?.phoneNumber,
         bio: user?.profile?.bio,
         skills: user?.profile?.skills?.map(skill => skill),
-        file:null
+        file: user?.profile?.resume || ""
     });
     const dispatch = useDispatch()
 
@@ -36,11 +36,12 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         setInput({...input, [e.target.name]: e.target.value}) // name yeahpar jho hai wo lable ko kaha gaya hai
       }
     
-      const fileHandle = (e) => {
-        const file = e.target.files[0];
-            
-            setInput({...input, file: file});
-        }
+      const fileChangeHandler = (e) => {
+        const file = e.target.files?.[0];
+        console.log(file)
+        setInput({ ...input, file })
+    }
+
     
       const submitHandler = async(e) => {
         e.preventDefault()
@@ -78,7 +79,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             setLoading(false);
         }
         setOpen(false);
-        console.log(input);
+        // console.log(input);
       }
   return (
     <div>
@@ -164,15 +165,15 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           </div>
           {/* Resume Field */}
           <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-4">
-            <Label htmlFor="file" className="text-left sm:text-right">
+            <Label htmlFor="file" className="text-right sm:text-right">
               Resume
             </Label>
             <Input
               id="file"
               name="file"
               type="file"
-              onChange={fileHandle}
               accept="application/pdf"
+              onChange={fileChangeHandler}
               className="sm:col-span-3 cursor-pointer text-black"
             />
           </div>

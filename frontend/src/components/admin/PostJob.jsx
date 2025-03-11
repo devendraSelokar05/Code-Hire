@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import axios from 'axios'
 import { toast } from 'sonner'
 import { useDarkMode } from '../context/DarkMode'
+import Footer from '../shared/Footer'
 
 const companyArray=[] //comapny honi chaiye databse me
 const PostJob = () => {
@@ -69,8 +70,8 @@ const PostJob = () => {
   return (
     <div className='min-h-screen'>
       <Navbar />    
-      <div className="flex items-center justify-center my-5 px-4 sm:px-8">
-  <form onSubmit={submitHandler} className="max-w-4xl w-full p-8 border border-gray-300 rounded-md shadow-lg">
+      <div className="flex items-center justify-center my-10 px-4 sm:px-8">
+  <form onSubmit={submitHandler} className={`max-w-4xl w-full p-8 border-2 ${isDarkMode && 'border-gray-600'}`}>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
         <Label>Title</Label>
@@ -199,6 +200,7 @@ const PostJob = () => {
     )}
   </form>
 </div>
+<Footer />
 </div>
 
 

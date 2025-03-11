@@ -11,7 +11,7 @@ const useGetAllAppliedJobs = () => {
                 const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/applications/get`,{
                     withCredentials: true
                 })
-                console.log(response)
+                // console.log(response)
                 if(response.data.success){
                     dispatch(setAllAppliedJobs(response.data.application))
                     // console.log(response.data.jobs)

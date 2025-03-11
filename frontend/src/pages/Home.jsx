@@ -1,5 +1,4 @@
 import Navbar from "@/components/shared/Navbar";
-
 import React, { useEffect } from "react";
 import HeroSection from "./HeroSection";
 import CategoryCoursel from "./CategoryCoursel";

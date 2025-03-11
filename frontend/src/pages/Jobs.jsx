@@ -3,7 +3,6 @@ import Navbar from "@/components/shared/Navbar";
 import React, { useEffect, useState } from "react";
 import Job from "./Job";
 import { useSelector } from "react-redux";
-import Login from "@/components/auth/Login";
 import Footer from "@/components/shared/Footer";
 
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

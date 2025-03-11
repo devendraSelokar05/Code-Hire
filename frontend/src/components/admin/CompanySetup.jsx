@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import useGetComapnyById from '@/hooks/useGetCompanyById'
+import Footer from '../shared/Footer'
 
 const CompanySetup = () => {
     const params = useParams()
@@ -81,10 +82,10 @@ const CompanySetup = () => {
         })
       }, [singleCompany])
   return (
-    <div>
+    <div className='min-h-screen'>
   <Navbar />
   <div className="max-w-3xl mx-auto my-10 px-4 sm:px-6 md:px-8">
-    <form onSubmit={submitHandler}>
+    <form  onSubmit={submitHandler}>
       <div className="flex items-center gap-5 p-8">
         <Button onClick={() => navigate("/admin/companies")} className="flex items-center gap-2 font-semibold">
           <ArrowLeft />
@@ -93,7 +94,7 @@ const CompanySetup = () => {
         <h1 className="text-3xl font-bold sm:text-4xl md:text-5xl">Company Setup</h1>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 p-8 border border-gray-100">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 p-8 ">
         <div>
           <Label>Company Name</Label>
           <Input
@@ -167,6 +168,7 @@ const CompanySetup = () => {
       }
     </form>
   </div>
+  <Footer/>
 </div>
 
   )

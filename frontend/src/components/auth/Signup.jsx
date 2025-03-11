@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup } from "@/components/ui/radio-group";
-import Navbar from "../shared/Navbar";
+
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader, LucideLoader2 } from "lucide-react";
 import { setLoading } from "@/redux/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
+import Navbar from "../shared/Navbar";
 
 const Signup = () => {
   const [input, setInput] = useState({

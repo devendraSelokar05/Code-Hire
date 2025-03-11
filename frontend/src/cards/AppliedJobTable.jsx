@@ -1,4 +1,5 @@
 import { useDarkMode } from "@/components/context/DarkMode";
+import Footer from "@/components/shared/Footer";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -117,7 +118,10 @@ const AppliedJobTable = () => {
       )}
     </div>
   </div>
+
 </div>
+
+
 
   
   );

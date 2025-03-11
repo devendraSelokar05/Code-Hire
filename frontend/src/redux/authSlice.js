@@ -4,7 +4,8 @@ const authSlice = createSlice({
     name:"auth",
     initialState:{
         loading:false,
-        user:null
+        user:null,
+        fetchUserData: null
     },
     reducers:{
         // actions
@@ -13,6 +14,9 @@ const authSlice = createSlice({
         },
         setUser:(state, action) => {
             state.user = action.payload;
+        },
+        setfetchUserData:(state, action) => {
+            state.fetchUserData = action.payload;
         }
     }
 });

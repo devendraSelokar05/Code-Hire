@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Navbar from "@/components/shared/Navbar";
+// import Navbar from "@/components/shared/Navbar";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Contact, Mail, Pen, Trash } from "lucide-react";
@@ -12,6 +12,8 @@ import useGetAllAppliedJobs from "@/hooks/useGetAllAppliedJobs";
 import { useDarkMode } from "@/components/context/DarkMode";
 import { toast } from "sonner";
 import axios from "axios";
+import Navbar from "@/components/shared/Navbar";
+import Footer from "@/components/shared/Footer";
 
 // const skills = ["Html", "Css", "Javascript", "Reactjs"]
 const isResume = true;
@@ -24,36 +26,7 @@ const Profile = () => {
   // console.log(user.fullname)
   const{isDarkMode} = useDarkMode()
 
-  // const handleDeleteResume = async () => {
-  //   try {
-  //     // Make sure public_id is available in the user profile
-  //     const publicId = user?.profile?.resumePublicId;  // Assuming you store public_id in the profile
-  //     // console.log(publicId);
-  //     if (!publicId) {
-  //       toast.error("No resume found to delete.");
-  //       return;
-  //     }
   
-  //     const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/users/deleteResume`, {
-  //       withCredentials: true,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       data: JSON.stringify({
-  //         userId: user._id,
-  //         public_id: publicId,  // Send public_id to backend
-  //       })
-  //     });
-  
-  //     console.log(response);
-  //     if (response.data.success) {
-  //       toast.success(response.data.message);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error(error.response?.data?.message || 'Error occurred');
-  //   }
-  // }
   
   return (
     <div className={` ${isDarkMode ? 'text-white' : 'text-black'} min-h-screen`}>
@@ -112,12 +85,12 @@ const Profile = () => {
             <div className="flex items-center justify-between">
             <a
               target="_blank"
-              href={user?.profile?.resume}
+              href={user?.profile?.resume ||  'No resume uploaded'}
               className="text-blue-500 hover:underline"
             >
               {user?.profile?.resumeOriginalName}
             </a>
-            <Button onClick={handleDeleteResume} className="mt-2" variant="destructive">
+            <Button className="mt-2" variant="destructive">
             <Trash className="mr-2" /> Delete Resume
           </Button>
           </div>
@@ -133,6 +106,7 @@ const Profile = () => {
       </div>
 
       <UpdateProfileDialog open={open} setOpen={setOpen} />
+      <Footer />
     </div>
   );
 };
