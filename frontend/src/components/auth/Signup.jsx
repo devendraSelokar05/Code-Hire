@@ -12,6 +12,7 @@ import { Loader, LucideLoader2 } from "lucide-react";
 import { setLoading } from "@/redux/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
 import Navbar from "../shared/Navbar";
+import { BASE_URL } from "@/lib/config";
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -47,7 +48,7 @@ const Signup = () => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/register`,
+        `${BASE_URL}/users/register`,
         formdata,
         {
           headers: {

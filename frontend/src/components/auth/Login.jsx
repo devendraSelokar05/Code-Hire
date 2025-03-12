@@ -13,6 +13,7 @@ import { LucideLoader2 } from "lucide-react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import Navbar from "../shared/Navbar";
+import { BASE_URL } from "@/lib/config";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -36,7 +37,7 @@ const Login = () => {
     try {
       dispatch(setLoading(true));
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        `${BASE_URL}/users/login`,
         input,
         {
           headers: {
